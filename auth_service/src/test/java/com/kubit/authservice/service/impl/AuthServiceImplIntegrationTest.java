@@ -96,4 +96,61 @@ class AuthServiceImplIntegrationTest {
         });
         assertEquals("Default role not found", ex.getMessage());
     }
+
+    @Test
+    void login_withValidCredentials_shouldReturnUser() {
+        RegisterRequest regReq = RegisterRequest.builder()
+                .name("Login User")
+                .age(28)
+                .email("loginuser@email.com")
+                .password("loginpw").build();
+
+        authService.register(regReq);
+
+        LoginRequest loginReq = LoginRequest.builder()
+                .email("loginuser@email.com")
+                .password("loginpw")
+                .build();
+
+        UserLoginResponse loggedInUser = authService.login(loginReq);
+        assertNotNull(loggedInUser);
+        assertEquals(regReq.getEmail(), loggedInUser.getUser().getEmail());
+    }
+
+    @Test
+    void login_withInvalidCredentials_shouldThrowException() {
+        LoginRequest loginReq = LoginRequest.builder()
+                .email("nonexistent@email.com")
+                .password("wrongpw")
+                .build();
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            authService.login(loginReq);
+        });
+        assertEquals("Invalid credentials", ex.getMessage());
+    
+    }
+
+    @Test
+    void login_withWrongPassword_shouldThrowException() {
+        RegisterRequest regReq = RegisterRequest.builder()
+                .name("Wrong Password User")
+                .age(28)
+                .email("wrongpassworduser@email.com")
+                .password("correctpw").build();
+
+        authService.register(regReq);
+
+        LoginRequest loginReq = LoginRequest.builder()
+                .email("wrongpassworduser@email.com")
+                .password("wrongpw")
+                .build();
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            authService.login(loginReq);
+        });
+        assertEquals("Invalid credentials", ex.getMessage());
+    }
+
+    
 }

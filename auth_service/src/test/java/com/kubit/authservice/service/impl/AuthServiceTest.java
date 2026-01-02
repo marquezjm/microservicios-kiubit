@@ -4,8 +4,11 @@ import com.kubit.authservice.domain.entity.AuthUser;
 import com.kubit.authservice.domain.entity.AuthUserStatus;
 import com.kubit.authservice.domain.entity.RegisterRequest;
 import com.kubit.authservice.domain.entity.Role;
+import com.kubit.authservice.domain.repository.AudithLogRepository;
 import com.kubit.authservice.domain.repository.AuthUserRepository;
+import com.kubit.authservice.domain.repository.RefreshTokenRepository;
 import com.kubit.authservice.domain.repository.RoleRepository;
+import com.kubit.authservice.util.JwtUtil;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,13 +26,19 @@ class AuthServiceTest {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private AuthServiceImpl authService;
+    private RefreshTokenRepository refreshTokenRepository;
+    private JwtUtil jwtUtil;
+    private AudithLogRepository audithLogRepository;
 
     @BeforeEach
     void setUp() {
         authUserRepository = mock(AuthUserRepository.class);
         roleRepository = mock(RoleRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
-        authService = new AuthServiceImpl(authUserRepository, roleRepository, passwordEncoder);
+        refreshTokenRepository = mock(RefreshTokenRepository.class);
+        jwtUtil = mock(JwtUtil.class);
+        audithLogRepository = mock(AudithLogRepository.class);
+        authService = new AuthServiceImpl(authUserRepository, roleRepository, passwordEncoder, refreshTokenRepository, jwtUtil, audithLogRepository);
     }
 
     @Test

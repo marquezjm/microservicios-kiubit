@@ -51,6 +51,7 @@ Estudiantes de matemáticas, profesores y personas interesadas en aprendizaje es
 * **Backend (Microservicios):**  Spring Boot (Java)
 * **Base de Datos:**  MySQL  
 * **Seguridad:**  JWT con estrategia de autenticación estándar (Spring Security recomendado)
+* **Comunicacion entre microservicios** Para la comunicacion entre los servicios se puede utilizar Feign o Kafka dependiendo la necesidad de la comunicacion
 * **(Opcional, futuro) Email y pagos:** Servicios externos vía microservicio dedicado (Mailgun, Stripe, etc.)
 ---
  Diagramas o Wireframes (Opcional)
