@@ -12,12 +12,11 @@ public interface AuthService {
 
     UserLoginResponse login(LoginRequest request); // Login y devolución de AuthUser o token
 
-    UserLoginResponse refreshToken(String refreshToken);
+    UserLoginResponse refreshToken(String refreshToken, String deviceId, String ipAddress);
 
-    void logout(String refreshToken);
+    void logout(String refreshToken, String deviceId, String ipAddress);
 
-    void logoutAllForUser(Long userId);
+    void logoutAllForUser(Long userId, String ipAddress);
 
     boolean validateJwt(String jwt);
 }
-

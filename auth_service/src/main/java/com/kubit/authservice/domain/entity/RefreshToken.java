@@ -43,6 +43,12 @@ public class RefreshToken {
     @Column(unique = true, nullable = false, length = 512)
     private String token;
 
+    @Column(name = "device_id", length = 128)
+    private String deviceId;
+
+    @Column(name = "ip_address", length = 50)
+    private String ipAddress;
+
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
