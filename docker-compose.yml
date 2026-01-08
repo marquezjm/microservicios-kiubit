@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.3
+    restart: always
+    container_name: kiubit_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kiubit_auth
+      MYSQL_USER: kiubit
+      MYSQL_PASSWORD: kiubittest
+    ports:
+      - 3307:3306
+    volumes:
+      - kiubit_mysql_data:/var/lib/mysql
+
+  auth_service:
+    build: ./auth_service
+    container_name: kiubit_auth_service
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/kiubit_auth?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: kiubit
+      SPRING_DATASOURCE_PASSWORD: kiubittest
+      JWT_SECRET: ${JWT_SECRET:-aGk3NmRmOHNkZjg3c2RmODdzZGY4N3NkZjg3c2RmODdzZGY4N3NkZjg3c2RmODdzZGY4N3NkZjg3c2RmODdzZGY4N3NkZjg3c2RmODdzZGY4N3NkZjg3c2RmODdzZGY4N3NkZg==}
+      JWT_EXPIRATIONMS: 3600000
+      JWT_REFRESHEXPIRATIONMS: 86400000
+    depends_on:
+      - mysql
+    # Puedes ajustar healthcheck, logging, profiles, etc. aquí si quieres
+
+# Puedes agregar más microservicios aquí (ejemplo):
+#  usuarios:
+#    build: ./usuarios
+#    ...
+
+volumes:
+  kiubit_mysql_data:

@@ -1,0 +1,27 @@
+pipeline{
+    agent{
+        label 'docker-agent-local'
+    }
+    triggers{
+        pollSCM('*/5 * * * *')
+    }
+    stages{
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Build'){
+            steps{
+                sh './mvnw clean package'
+            }
+        }
+        stage('Deliver'){
+            steps {
+                script {
+                    docker.build("auth_service:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+    }
+}

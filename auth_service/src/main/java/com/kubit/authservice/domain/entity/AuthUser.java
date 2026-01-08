@@ -3,6 +3,7 @@ package com.kubit.authservice.domain.entity;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,26 +30,33 @@ import lombok.NoArgsConstructor;
         @Index(name = "idx_auth_user_email", columnList = "email")
     }
 )
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(name = "AuthUser", description = "Usuario autenticado o creado; no se expone passwordHash al frontend.")
 public class AuthUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "Email único del usuario", example="juan@example.com")
     @Column(unique = true, nullable = false, length = 255)
     private String email;
 
+    @Schema(description = "Hash de la contraseña (nunca expuesto)")
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
+    @Schema(description = "Estado de la cuenta (PENDING_PROFILE, ACTIVE, BLOCKED)")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
     private AuthUserStatus status;
 
+    @Schema(description = "Conjunto de roles para el usuario", example = "[ROLE_USER, ROLE_ADMIN]")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "auth_user_role",
