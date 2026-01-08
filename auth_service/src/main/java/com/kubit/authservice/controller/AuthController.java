@@ -43,7 +43,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @Operation(
-        summary = "Registro de usuario",
+        summary = "Registro de usuario nuevo",
         description = "Crea una nueva cuenta de usuario con email único. Devuelve el usuario creado sin la contraseña.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Usuario registrado exitosamente"),
