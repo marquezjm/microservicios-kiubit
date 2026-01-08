@@ -5,6 +5,10 @@ pipeline{
     triggers{
         pollSCM('*/5 * * * *')
     }
+    environment {
+        IMAGE_NAME = "auth_service"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+    }
     stages{
         stage('Test') {
             steps {
@@ -24,7 +28,7 @@ pipeline{
             steps {
                 script {
                     dir('auth_service'){
-                        docker.build("auth_service:${env.BUILD_NUMBER}")
+                        docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                     }
                 }
             }
@@ -36,7 +40,7 @@ pipeline{
                 docker run -d \
                     --name auth_service \
                     -p 8081:8080 \
-                    auth_service:${env.BUILD_NUMBER}
+                    ${IMAGE_NAME}:${IMAGE_TAG}
                 '''
             }
         }
