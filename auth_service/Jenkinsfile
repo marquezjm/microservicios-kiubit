@@ -36,7 +36,7 @@ pipeline{
                 docker run -d \
                     --name auth_service \
                     -p 8081:8080 \
-                    auth_service::${IMAGE_TAG}
+                    auth_service:${env.BUILD_NUMBER}
                 '''
             }
         }
