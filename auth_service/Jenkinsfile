@@ -8,18 +8,24 @@ pipeline{
     stages{
         stage('Test') {
             steps {
-                sh './mvnw test'
+                dir('auth_service'){
+                    sh './mvnw test'
+                }
             }
         }
         stage('Build'){
             steps{
-                sh './mvnw clean package'
+                dir('auth_service'){
+                    sh './mvnw clean package'
+                }
             }
         }
         stage('Deliver'){
             steps {
                 script {
-                    docker.build("auth_service:${env.BUILD_NUMBER}")
+                    dir('auth_service'){
+                        docker.build("auth_service:${env.BUILD_NUMBER}")
+                    }
                 }
             }
         }
