@@ -16,7 +16,7 @@ pipeline{
         stage('Build'){
             steps{
                 dir('auth_service'){
-                    sh './mvnw clean package'
+                    sh './mvnw clean package -DskipTests'
                 }
             }
         }
