@@ -29,5 +29,16 @@ pipeline{
                 }
             }
         }
+        stage('Deploy Auth Service') {
+            steps {
+                sh '''
+                docker rm -f auth_service || true
+                docker run -d \
+                    --name auth_service \
+                    -p 8081:8080 \
+                    auth_service:latest
+                '''
+            }
+        }
     }
 }
